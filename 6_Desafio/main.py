@@ -6,7 +6,6 @@ def dormir():
 contas = {}
 numero_conta = 1000
 LIMITE_SAQUES = 3
-extrato = ''
 
 menu_principal = """
 
@@ -55,6 +54,7 @@ while True:
                     menu_conta = '''
                     [d] Depositar
                     [s] Sacar
+                    [t] Transferir
                     [e] Extrato
                     [q] Sair da conta
                     => '''
@@ -102,6 +102,59 @@ while True:
                         print(contas[numero]['extrato'] if contas[numero]['extrato'] else "Nenhuma movimentação.")
                         print(f"Saldo atual: R$ {contas[numero]['saldo']:.2f}")
                         print("===================")
+                        dormir()
+
+                    elif acao == 't':
+                        if contas[numero]['saldo'] <= 0:
+                            print('Saldo insuficiente para realizar transferência')
+                            dormir()
+                            continue
+
+                        conta_destino = input('Digite o número da conta de destino: ').strip()
+
+                        if not conta_destino.isdigit():
+                            print('Número da conta inválido')
+                            dormir()
+                            continue
+
+                        conta_destino = int(conta_destino)
+
+                        if conta_destino not in contas:
+                            print('Conta de destino não encontrada.')
+                            dormir()
+                            continue
+
+                        if conta_destino == numero:
+                            print('Você não pode transferir para a mesma conta')
+                            dormir()
+                            continue
+
+                        valor = input('Digite o valor da transferência: R$ ').strip()
+
+                        if not valor.replace('.', '', 1).isdigit():
+                            print('Valor inválido')
+                            dormir()
+                            continue
+
+                        valor = float(valor)
+
+                        if valor <= 0:
+                            print('O valor deve ser maior que zero')
+                            dormir()
+                            continue
+
+                        if contas[numero]['saldo'] < valor:
+                            print('Saldo insuficiente para realizar a transferência')
+                            dormir()
+                            continue
+
+                        contas[numero]['saldo'] -= valor
+                        contas[conta_destino]['saldo'] += valor
+
+                        contas[numero]['extrato'] += f'Transferência enviada para conta {conta_destino}: R$ {valor:.2f}\n'
+                        contas[conta_destino]['extrato'] += f'Transferência recebida da conta {numero}: R$ {valor:.2f}\n'
+                        
+                        print(f'Transferência de R$ {valor:.2f} para a conta {conta_destino} realizada com sucesso')
                         dormir()
 
                     elif acao == 'q':
