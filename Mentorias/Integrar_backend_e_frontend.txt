@@ -1,0 +1,31 @@
+'''
+Objeto
+
+Como integrar backend e frontend na prática, mostrar boas práticas e entender as diferenças entre sala de aula e conteúdo do mundo real.
+
+Cada aplicação é feita com uma linguagem diferente. Como uma aplicação que é feita em Java convesa com uma aplicação feita em HTML CSS? Elas conversam respeitando um modelo de contrato. Cada lado recebe um modelo (protocolo).
+
+A comunição entre o server e client é feita obedecendo o mesmo contrato (padrão de uma API). Basicamente a API respeita o modelo de dados que trafega de um lado para outro. 
+Pode ser utilizado o json. O servidor fornece os dados em formato json e o client recebe em formato de json. Os dois lados recebem e enviam e um mesmo formato.
+
+Se mudar a linguagem inteira do server não irá afetar nada para o client, pois irá obedecer o mesmo modelo de contrato.
+
+Server
+
+Alguem que está servindo algo
+
+    Cozinha = preparo
+    Garçom = intermédio entre a cozinha e o cliente
+    Cliente = quem está sendo servido
+
+    Server = backend = preparo dos dados, calculado regras de negócio
+    API = Aplication Programming Interface (Interface sendo contrato. Exemplo, quando você alugar um apartamento.A dona do imóvel é a Maria. Você não irá negociar com a Maria, a comunição será feita a partir de um contrato. Maria (dona) ---- EU (cliente) ---- Interface (contrato))
+    Cliente = outra aplicação
+
+
+Client
+
+Alguem que está consumindo algo
+
+'''
+
