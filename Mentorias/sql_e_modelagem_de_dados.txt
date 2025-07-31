@@ -1,0 +1,226 @@
+Primeiros passsos com SQL e Moodelagem de Dados
+
+O que vamos aprender?
+Introdução - Fundamentos de Banco de Dados
+Modelagem de Dados - Modelos Conceitual, lógico e físico
+Primeiros passos com SQL
+
+
+Introdução
+Em qual contexto vamos trabalhar?
+Imagine que você precisa criar o banco de dados para uma plataforma digital chamada "Noob Arena", que gerencia campeonatos de E-Soprts amadores do seu estado
+
+
+Conceitos-chaves
+Dados - São valores isolaos, sem contexto.
+Exemplo: Dados isolaos a nossa plataforma
+- "Agmenus"
+- "25"
+- "Valorant"
+- "42"
+- "60"
+
+
+Informação - São dados organizados que transmitem significado
+Exemplo: Dados contextualizado
+"Agmenus jogoar de 25 anos, atua no cenário amador de Valorant. Com 60 partidas jogadas e 42 vitórias, mantém uma taxa dde vitória de 70%"
+
+
+Qual a importância?
+Quando organizamos esses dados com contexto, eles se transformam em informação valiosa.
+
+Conhecimento - É a informação interpretada com valor prático
+Exemplo: Informação processada, compreendida e relacionada
+"Com uma taxa de vitória de 70%, Agmenus demonstra alto nível de desempenho nas competições. Seu perfil se destaca entre jogadores amadores, o que pode torná-lo elegível para programas de desenvolvimento ou peneiras de times semi-profissionais"
+
+
+Banco de Dados - Conjunto de informações organizadas sobre determinado domínio
+
+Bando de dados não relacional - Composto por dados não estruturado ou semi-estruturado
+Quando utilizar?
+Para armazenar postagegns de usuários numa rede social, devido ao grande volume de dados e estrutura flexível.
+
+
+Banco de Dados relacional - Composto por dados estruturado em tabelas, colunas, e linhas relacionadas entre si.
+Quando utilizar?
+Relacões claras e estruturadas (ex: times participam de campeonatos, campeonatos tem partidas)
+
+- Consistência: Forte (ACID)
+- Consultas: Complexas e com JOINs
+- Linguagem de Consulta: SQL
+
+Exemplo de Banco de Dados Relacional - Tabela de usuários
+
+ID | nome | sobrenome | nickname | email                  | data_nascimentoo
+1   Aline   Antunes     aelin      aline@email.com          1990-08-15
+2   Mario   Silva       ntzFPS     mariosilva@email.com     2005-07-03
+3   Felipe  Martins     feAguiar   felipe@email.com         1985-04-12
+
+
+Sistema de Gestão de Banco de Dados(SGBD)
+Software que gerencia e armazena dados em um banco de dados.
+
+Exemplo: 
+SGBD SQL -  MySQL, SQL Server, PostgreSQL
+SGBDs NoSQL - mongoDB, neo4j, cassandra
+
+
+Modelagem de Dados
+O que é modelagem de dados e qual a sua importância?
+Processo de criar uma representação estruturada dos dados de ums sitema.
+- Garante Qualidade e Consistência dos Dados
+- Otimiza desempenho e segurança
+- Reduz erros e redundâncias
+- Tomada de decisões estratégicas
+
+Etapas da modelagem de dados
+Levantamento e análise de requisitos - Compreende as necessidades e regras de negócio a serem atendidas
+Exemplo: plataforma de E-sport amador
+A plataforma deve gerenciar campeonatos de e-sports vinculados a jogos específicos, cada um com número de jogadores e posições definidas (ex: Valorant - Iniciado, Controlador, etc)
+Os usuários podem participar de múltiplos times, que se inscrevem nos campeonatos, mas não pode jogar em campeonatos conflitantes.
+Cada time possui um capitão e seus membros posições no jogo.
+
+
+Modelagem Conceitual
+Representa os dados de forma bastrata e independente de tecnologia
+Exmeplo 1: elementos do modelo conceitual e diagrama entidade-relacionamento(DER)
+- Entidades: 
+    Usuários - Pessoa cadastrada na plataforma. Pode participar de um ou mais times
+    Times - Grupos de usuários que competem juntos nos campeonatos
+    Jogos - Títulos de eSports disponíveis (CS2, LOL, Valorant...)
+    Campeonatos - Competição vinculada a um único jogo, com data de início e fim
+    Partidas - Confronto entre dois times dentro de um campeonato
+    Posições do jogo - Funções específicas por jogo (ADC no lol, Duelista no Valorant....)
+- Atributos: ID, data_criacao, nome
+- Relacionamentos: participam e possuem
+- Cardinalidade: 
+    1:1 (1 time tem 1 único capitão)
+    1:N (1 jogo pode ter várioos campeonatos, mas cada campeonato só pode ser de 1 jogo)
+    N:N (times podem participar de vários campeonatos e cada campeonato tem vários times participando)
+
+N times com os atributos (ID, data_criacao, nome) participam de N campeonatos e 1 campeonato possui N partidas
+
+
+Modelagem lógica
+Adequa o modelo conceitual a um tipo de banco de dados específico
+Exemplo - Modelagem lógica no banco de dados relacional
+    - Definição de tabelas
+    - Detalhamento dos Relacionamentos
+    - Definir domínios e tipos de dados
+    - Normalização
+
+Definição de tabelas - Estrutura que armazenam dados em linhas (registros) e colunas (atributos)
+Tabela usuario
+    - Campos essenciais: ID, nickname, nome, sobrenome, data de nascimento, email
+    - Campos opcionais: telefone, bio, foto
+    - Regras: nickname único, idade entre 16-40, email válido
+
+Tabela jogos
+    - Campos essenciais: Id, nome, genero
+    - Campos informativos: qtd_jogadores_time, descrição, desenvolvedor, ano_lançamento
+    - Regras: nome único
+
+Tabela campeonatos
+    - Campos essenciais: ID, nome, jogo, data_inicio
+    - Campos opcionais: data_fim, premiacao, max_times, descricao
+    - Regras: data_inicio não pode ser no passado
+
+As tabelas se conectam através de chaves:
+    - Chave primária (primary key): identificador único de cada linha de uma Tabela
+        Ex: campeonato_id na tabela Campeonatos - Identifica exclusivamente um campeonato
+    - Chave estrangeira (foreing key): Campo que faz referência a uma chave primária de outra tabela
+        Ex: time_id na tabela inscrições - Liga uma inscrição a um time existente
+    - Chave composta (composite key): Quando a chave primária usa mais de um campo para identificar a linha de forma única
+        Ex: (time_id, campeonato_id) na tabela inscrições - Evita inscrições duplicadas
+
+
+Definir domínios e tipos de Dados
+Cada atributo deve ter um domínio bem definido (tipo e restrições)
+
+Tipo de dados       descrição                                   Exemplo
+inteiro             Números inteiros, positivo ou negativos     quantidade
+decimal             Números com casas decimais                  pontuação
+caractere           Texto curto oou identificadores             nome, nickname
+texto               Texto longo ou descrições                   descrição, observações
+data                Apenas data (sem hora)                      data de nascimento
+hora                Apenas hora (sem data)                      horário de início
+data/hora           data e hora combinadas                      data e horoa de registro
+booleano            Verdadeiro ou falso                         offline/online
+domínioo limitado   Conjunto pré-definidoo de valores           categorias (FPS/etc)
+ 
+ 
+Normalização
+Organização dos dados para eliminar redundâncias e inconsistências
+    - Primeira forma normal: atributos atômicos, sem repetições de dados numa célula
+    - Segunda forma normal: atender NF1, sem dependências parciais da chave primária
+    - Terceira forma Normal: atender NF1 e NF2 sem dependências transitivas
+
+NF1 - O campo contém múltiplos valores (não atomicos), o que dificulta a consulta e atualização dos dados (cada registro tem q representar uma única informação)
+NF2 - O campo não depende da chave primária, mas apenas do atributo. Evitar redundâncias
+NF3 - Um campo depende de um atributo, não diretamente da chave primária (dependência transitiva e derivada). Em vez de armazenar a duração do campeonato como uma coluna fixa, você pode calculá-la dinamicamente no sistema (ou em uma view, ou em uma consulta SQL)
+
+
+Modelagem física
+Traduz o modelo lógico para um modelo implementável em um SGBDs
+    - Adequação ao SGBD escolhido
+    - Tipos de dados específicos
+    - Restrições
+    - Perfomance
+
+
+Primeiros passos com SQL
+É a linguagem de consulta usada para interagir com bancos ded dados relacionais
+    - Criar e modificar estruturas (DDL - Data Definition Language)
+    - Consultar informações (DQL - Data Query Language)
+    - Manipular dados (DML - Data Manipulation Language)
+    - Controlar acesso (DCL - Data Control Language)
+
+Comandos básicos
+CREATE DATABASE nome_do_banco;
+USE nome_do_banco;
+
+CREATE TABLE nome_da_tabela (
+    id INT PRIMARY KEY,
+    nome VARCHAR(100)
+);
+
+# Criando uma tabela com chave estrangeira
+CREATE TABLE nome_da_tabela (
+    id INT PRIMARY KEY,
+    nome VARCHAR(100),
+    outra_id INT,
+    FOREING KEY (outra_id) REFERENCES outra_tabela(outra_id)
+);
+
+# Criando uma tabela com chave composta
+CREATE TABLE nome_da_tabela (
+    coluna1 tipo_dado NOT NULL,
+    coluna2 tipo_dadoo NOT NULL,
+    PRIMARY KEY (coluna1, coluna2),
+);
+
+#Inserir dados
+INSERT INTO nome_da_tabela (coluna1, coluna2, ...)
+VALUES (valor1, valor2, ...)
+
+#Selecionando dados de uma tabela
+SELECT coluna1, coluna2, ...
+FROM nome_da_tabela;
+
+#Selecionar todas as colunas, use *
+SELECT * FROM nome_da_tabela;
+
+#Atualizar dados de uma tabela
+UPDATE nome_da_tabela
+SET coluna1 = valor1, coluna2 = valor2, ...
+WHERE condição;
+
+#Deletar dados de uma tabela
+DELETE FROM nome_da_tabela
+WHERE condição;
+
+#Renomeando uma tabela
+ALTER TABLE nome_antigo RENAME TO nome_novo;
+
+#Renomeando a coluna de uma tabela
+ALTER TABLE nome_da_tabela RENAME COLUMN nome_antigo TO nome_novo;
