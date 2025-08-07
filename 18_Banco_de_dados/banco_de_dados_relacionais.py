@@ -1,0 +1,64 @@
+'''
+Objetivo geral é fornecer uma introdução aos bancos de dados relacionais e desenvolver habilidades na criação, modelagem e consulta desses bancos.
+
+Estratura de um banco de dados relacional é composto por um database ou banco de dados onde serão armezanados o conjunto de todas as tabelas. Podendo ou não ter relacionamento entre elas. É composta colunas, onde serão inseridos as definições dos dados.
+O registro é conhecido como linha ou tupla são as informações armazenadas.
+O relacionamento depende de 2 conceitos: chaves primárias que são os identificadores únicos e chaves estrangeiras que sinalizam que existe um relacionamento entre as tabelas
+
+Caracteristicas:
+    - Relacionamento entre tabelas
+    - Linguagem de consulta estruturada (SQL)
+    - Integridade referencial
+    - Normalização de dados
+    - Segurança
+    - Flexibilidaded e extensibilidade
+    - Suporte a transações ACID
+
+ACID (Atomicidade Consistenciaa Isolamento Durabilidade)
+As transações ACID são um conjunto ded propriedades de um banco de dados relacional que garante que as operações sejam executadas de forma segura e confiável
+Atomicidade - garante que as operações de uma transação seja ou não executada.
+Consistencia - está relacionamento com atomicidade, as transações garante que saia de um estado consistente para outro estado consistente
+Isolado -  cada transações são executadas de forma isolada sem interferencias nas transações concorrente 
+Durabilidade - uma vez que a transação seja executa, essa alteração é permanente. Uma vez comitada a transação não voltará.
+
+
+Organização do SQL
+
+DQL - Linguagem de Consulta de dados (SELECT)
+DML - Linguagem de Manipulação de dados (INSER, UPDATE E DELETE)
+DDL - Linguagem de Definição de dados (CREATE, ALTER E DROP)
+DCL - Linguagem de Controle de dados (GRANT, REVOKE)
+DTL - Linguagem ded Transação de dados (BEGIN, COMMIT, ROLLBACK)
+
+Sintaxe básica: Nomenclatura
+    - Os nomes devem começar com uma letra ou com um caractere de sublinhado (_)
+    - *** Os nomes podem conter letras, números e caracteres de sublinhado
+    - Sensibilidade a maiúscula e minúscula
+
+MER e DER
+O modelo Entidade-Relacionemtno (MER) é representado através de diagramas chamadas Diagramas Entidade-Relacionamento (DER)
+As entidades são nomeadas com substrantivos concretos ou abstratos que representem de forma clara sua função dentro do domínio
+Atributos são as características ou propriedades das entidades. Eles descrevem informações específicas sobre uma entidade
+
+Exemplo:
+Relacionamento de usuários que irá fazer reservar em um destino
+
+Usuario contem um ID, nome, email, senha e data_nascimento
+Reserva contem ID, id_usuário, id_destino, data, status
+destino contem ID, nome, descrição
+
+Relaciomento: Usuário REALIZA reserva que é VINCULADO com destino
+
+Cardinalidade
+    - 1..1 (um para um)
+    - 1..n ou 1..* (um para muitos)
+    - n..n ou *..* (muitos para muitos)
+
+Reserva tem um relacionamento de 1 para 1 com usuário. 
+Usuário tem o relacionamento de 1 para muitos com a reserva.
+Reserva tem um relaciomento de 1 para 1 com o destino
+Destino tem um relaciomento de 1 para muitos com a reserva.
+
+
+
+'''
