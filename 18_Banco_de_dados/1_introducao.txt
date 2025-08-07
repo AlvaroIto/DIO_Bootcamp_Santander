@@ -1,4 +1,3 @@
-'''
 Objetivo geral
 Aprender os principais conceitos de banco de dados, SQL, comandos, tratamento e junção de dados, com foco em desenvolvimento.
 
@@ -14,6 +13,3 @@ Exemplo: mongoDB
 Existem vários tipos: document databases, key-value database, wide-column store, e graph databases
 
 DBMS - Database Management System: É um software utilizaddo para acessar, manipular e monitorar um sistema de banco de dados.
-
-
-'''
