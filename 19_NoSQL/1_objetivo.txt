@@ -1,0 +1,14 @@
+Introdução ao mundo do NoSQL, apresentar os tipos de bancos NoSQL assim como realizar pequenas operações em alguns deles com enfâse no MongoDB no qual iremos desde sua instalação, opções de uso na nuvem e operações dde manipulação de dados
+
+Percurso
+    - Introdução ao NoSQL
+    - Conhecendo os tipos de banco de dados NoSQL
+    - Introdução ao MongoDB e instalação
+    - Schema Design e boas práticas
+    - Aprendendo mais sobre JSON e BSON
+    - Operações de manipulação de dados
+    - Performance e índices
+    - Agregações
+
+
+

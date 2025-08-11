@@ -1,0 +1,131 @@
+- Document Store
+- Key-Value Store
+- Wide-Column Store
+- Graph Store
+
+Banco de dados não relacionais do tipo grafos
+São estruturas matemáticas, que são compostas por nós e vértices onde os nós compõem os dados e os vértices compõem os relacionamentos
+São muito comum em detecção de fraudes, mecanismos de recomendação, redes sociais, sistemas de arquivo, games.
+Alguns exemplos de banco de dados orientados a grafos: Neo4j, Microsoft Azure Cosmos DB, ArangoDB, Orient DB, Virtuoso,...
+
+Prática (Neo4j):
+    - Vamos criar uma estrutura de registros que compõem os dados de uma rede social utilizanddo um sandbox do Neo4j.
+    acessar sandbox.neo4j.com
+    # simulação de criação de rede social
+    Criação de nó e relacionamento com create
+    CREATE (:Client {name: 'Bob Esponja', age: 27, hobbies: ['Caça agua-viva', 'Comer Hamburgues']})
+    # consultas com match
+    MATCH (bob_esponja) RETURN bob_esponja;
+    # criar nós com relacionamento
+    CREATE (:Client {name: 'Lula Molusco', age: 40, hobbies: ['Tocar clarinete']}) -[:Bloqueado]->(:Client {name: 'Patrick', hobbies: ['Caçar agua-viva']})
+    # consultar todos
+    MATCH (todos) RETURN todos;
+    # criar relacionamento entre 2 estruturas existentes
+    MATCH (bob_esponja: Client {name: 'Bob Esponja'}), (patrick:Client {name: 'Patrick'}) CREATE (bob)-[:Bloqueado]->(patrick)
+    # exclusão de relacionamento
+    MATCH (lula:Client {name: 'Lula Molusco})-[relaciona:Bloqueado]-() DELETE relaciona
+    # exclusão de nó
+    MATCH (lula:Client {name: 'Lula Molusco'}) DELETE lula;
+    # atualizar dado de um nó
+    MATCH (patrick:Client {name: 'Patrick'}) SET patrick.age = [32];
+    # atualizar label
+    MATCH(patrick:Client {name: 'Patrick'}) SET patrick:Client_Premium
+
+
+Coluna/Familia de colunas
+
+Em banco de dados relacionais onde temos um database onde há uma tabela que contém linha e dados em colunas. No banco de dados não relacionais haverá um key-space e dentro dele haverá uma familia de colunas e dentro dela terão as informações armazenadas em colunas e cada coluna terá uma linha com o valor.
+A coluna, diferentemente do banco relacional ela não é constituída apenas do valor, a coluna é constituída de 3 valores (chave, valor e timestamp)
+Alguns exemplos de banco de dados orientados a Coluna/familia: Cassandra, HBase, Microsoft Azure Cosmos DB, Datastax Enterprise, ...
+Terminologias entre BD relacionais e BD NoSQL baseados em colunas:
+    - Keyspace: agrupamento de familias de colunas = database
+    - Column Family/table: agrupamento de colunas = table
+    - Row Key: chave que representa uma linha de coluna =  Primay Key
+    - Column: representa um valor contendo: Name, Value, timestamp
+
+Uso ideal dos BD baseados em colunas é em realizar buscas pelas chaves. Exemplo:
+    - Registro de transações: compras, resultados de testes, filmes assistidos e localização mais recente do filme
+    - Rastreando praticamente qualquer coisa, incluindo status do pedido, pacotes, etc
+
+Prática (Cassandra):
+    # Criação do Keyspace
+    CREATE KEYSPACE fenda_biquini WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+    # usar o Keyspace sem necessidade de fazer referência
+    use fenda_biquini;
+    # criar primeira família de coluna
+    CREATE COLUMNFAMILY clients (name TEXT PRIMARY KEY, age int);
+    # consultar
+    SELECT * FROM clients;
+    # Inserção de dados
+    INSERT INTO clients (name, age) VALUES ('Bob Esponja', 38);
+    # Inserção de dados por JSON
+    INSERT INTO clients JSON '{"name": "Patrick"}';
+    # Consultar o timestamp da coluna
+    SELECT age, WRITETIME(age) FROM clients;
+    # Sintaxes de consultas
+    SELECT * FROM clients;
+    SELECT * FROM clients WHERE name ='Bob Esponja';
+    # Retonar valores como JSON
+    SELECT JSON * FROM clients;
+    # Operações de atualização
+    UPDATE clients SET age=33 WHERE name='Patrick'
+    # Adicionar novo campo
+    ALTER COLUMNFAMILY clients ADD hobby text;
+    # Adiconar registros
+    UPDATE clients SET hobby='Caçar agua-viva' WHERE name='Patrick';
+    # Consultar colunas com WRITETIME
+    SELECT age, WRITETIME(age), hobby, WRITETIME(hobby) FROM clients WHERE name='Patrick';
+    # Deletar Registro
+    DELETE FROM clients WHERE name='Bob Esponja';
+
+
+Chave-valor
+É constituído com uma chave única e valor
+Pode armazenar um conjunto de dados simples ou complexo, identificados por um identificador exclusivo. Pode ser inserido uma string, texto, JSON, inteiro, listas de tipos...
+Tem um bom desempenho em aplicações na nuvem porém menor capacidade de buscas
+Geralmente são usados em sessões de chave, sessão de usuário, carrinhos de compra...
+Alguns exemplos de BD chave-coluna: Redis, Amazon DynamoDB, Microsoft Azure Cosmos DB, Memcached, etcd
+
+Prática (Redis):
+    #Utilizando o site try.redis.io
+    # Os dados não são armazenados em nenhuma COLUMNFAMILY ou Table, são estruturados de forma de chave-valor dentro do banco
+    # Criar valor dentro do banco
+    SET user1:name 'Bob Esponja'
+    # Consultar 
+    GET user1:name
+    # adicionando json na estrutura
+    SET user '{'name': 'Patrick', 'age': 31}'
+    # Recurso de tempo de expiração da chave (muito utilizado em cache e sessões de usuário)
+    SET user2:name 'Lula Molusco' EX 10 
+    # Após 10 segundos o dado expira
+    # Verificar se um dado está presente
+    EXISTS user2:name 
+    # Manipular algumas collections
+    # Inserir dado de uma listas
+    LPUSH user1:hobbies 'Caçar agua-viva'
+    LPUSH user2:hobbies 'Comer Hamburgues'
+    # Acessar dados de uma listas
+    # forma1:
+    LINDEX user1:hobbies 0
+    LINDEX user1:hobbies 1
+    # forma2:
+    LRANGE user1:hobbies 0 1
+    # Identicar qual o tipo do valor de uma chave
+    TYPE user1:name
+    # Identificar qual tempo de expiração de uma chave criada
+    TTL user1:name
+    # Remover tempo de expiração
+    PERSIST user2:name
+    # Remoção de dado
+    DEL user2:name
+
+
+Document
+Dados e documentos autocontidos e auto descitivos. Permite redundância e inconsistência
+Livre de esquemas podendo utilizar JSON, XML entre outros.
+Alguns exemplos de DB baseados em documentos: MongoDB, Amazon DynamoDB, Microsoft Azure Cosmos BD, Couchbase, ...
+
+
+    
+
+
