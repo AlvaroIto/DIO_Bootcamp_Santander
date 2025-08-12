@@ -1,0 +1,56 @@
+Objetivos:
+    - Introdução do MongoDB
+    - Instalação do MongoDB utilizando Docker
+    - Apresentação do MongoDB Cloud
+
+Introdução
+- O MongoDB é um banco de dados de código aberto, com alta perfomance e schema-free. 
+- Dentro de uma mesma collection você pode ter documentos de estruturas diferentes.
+- Utiliza JSON para armazenamento dos dados.
+- Suporta índices
+- Auto-Sharding o MongoDB foi feito para escalar de forma horizontal, também permitindo a escalação de forma vertical com réplicas de leitura.
+- Map-Reduce que é uma ferramenta de consulta e agregação, onde permite processar um grande volume de dados e ter um resultado com base nele
+- Suporte ao GridFS que é um armazenamento de arquivos
+- Rica linguagem de consulta, que possibilita fazer quase de tudo em um banco de dados
+
+Estrutura
+Document => Tupla/Registro
+Collection => Tabela
+Embedding/linking => Join
+
+Quando usar:
+- Necessidade de grande volume de dados
+- Dados não necessariamente estruturados
+
+Quando não usar:
+- Necessidade de relacionamento/joins
+- Propriedades ACID e transações são importantes
+- Curiosidade: Diversas entidades de pagamento não homologam sistemas cujos dados financeiros dos clientes não estejam em banco de dados relacionais tradicionais
+
+
+Instalação MongoDB com Docker
+Docker é uma plataforma de código aberto que tem alto desempenho que garante de forma fácil seja criado e administrado os ambientes de forma isolado. Tem como objetivo de criar, teste e implemente aplicações em um ambiente separado da máquina no qual ele será entregue e esse processo é chamado de containerização.
+    -criar arquivo docker-compose.yml
+    version: '3.8'
+    services:
+        db:
+            image: mongo
+            container_name: db
+            restart: always
+            environment:
+                - MONGO_INITDB_ROOT_USERNAME-dio
+                - MONGO_INITDB_ROOT_PASSWORD=dio
+            ports:
+                - '27017:27017'
+            volumes:
+                - path_maquina:path_container
+
+    - Criar imagem
+    docker-compose up
+    - Listar container em execução
+    docker container ps
+
+- Cliente para se conectar ao MongoDB
+robomongo.org
+
+
