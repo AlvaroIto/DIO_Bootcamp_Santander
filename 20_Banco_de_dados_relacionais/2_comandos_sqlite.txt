@@ -1,0 +1,61 @@
+Conectando-se a um Banco de dados
+A primeira etapa para trabalhar com um banco de dados é estabelecer uma conexão. Vamos ver como podemos fazer isso usando Python DB API 
+
+Exemplo de código:
+import sqlite3
+con = sqlite3.connect('meu_banco_de_dados.db')
+cursor = con.cursor()
+
+- Criar tabela
+cursor.execute('CREATE TABLE clientes (id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR(100), email VARCHAR(150))')
+
+- Inserir registros
+data = ('Fulano', 'fulano@email.com')
+cursor.execute('INSERT INTO clientes(nome, email) VALUES (?,?);', data)
+con.commit()
+
+- Atualizando registros
+data = ('Fulano', 'fulano@gmail.com', id)
+cursor.execute('UPDATE clientes SET nome=?, email=? WHERE id=?;', data)
+con.commit()
+
+- Removendo registros
+data = (1,)
+cursor.execute('DELETE FROM clientes WHERE id=?;', data)
+con.commit()
+
+- Insersão de vários registros
+data = [
+    ('Fulano', 'fulano1@email.com'),
+    ('Ciclano', 'ciclano@email.com'),
+    ('Beltrano', 'beltrano1@email.com'),
+]
+cursor.executemany('INSERT INTO clientes (nome, email) VALUES (?,?);', data)
+con.commit()
+
+- Consultar registros
+- Um registro
+cursor.execute('SELECT * FROM clientes WHERE id = 1')
+resultado = cursor.fetchone()
+print(resultado)
+- Todos os registros
+cursor.execute('SELECT * FROM clientes WHERE id = 1')
+resultado = cursor.fetchall()
+for row in results:
+    print(row)
+
+- Alterando row factory
+cursor.row_factory = sqlite3.Row
+cursor.execute('SELECT * FROM clientes WHERE id = 1')
+resultado = cursor.fetchone()
+print(dict(resultado))
+
+- Gerenciando transação
+try:
+    cursor.execute('INSERT INTO clientes VALUES (?, ?)', (1, 'abc'))
+    con.commit()
+except Exception as e:
+    print(f'Ocorreu um erro? {e}')
+    con.rollback()
+
+

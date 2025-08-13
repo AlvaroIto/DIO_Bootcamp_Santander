@@ -1,0 +1,51 @@
+Objetivo
+Vamos abortar os coneceitos básicos de banco de dados e comoo podemos interagir com eles usando DB API em Python.
+
+Conteúdo
+- Introdução aos bancos de dados relacionais
+- Python DB API
+- Boas práticas em consultas SQL
+- Gerenciando transações
+
+O que é um banco de dados?
+Os bancos de dados são coleçõs organizadas de dados, geralmente armazenadas e acessadas eletronicamente a partir de um sistema de computador.
+
+Tipos de banco de dados
+Existem vários tipos de bancos de dados, incluindo relacionais, não relacionais, orientados a objetos e muito mais. O tipo mais comum é o banco de dados relacional, que organiza os dados em tabelas.
+
+O papel do SGBD
+Os sistema de gerenciamento de banco de dados (SGBD) são softwares que interagem com o usuário, outras aplicações e o próprio banco de dados para capturar e analisar os dados. Existem muitos SGBDs disponíveis no mercado, alguns dos mais populares incluem: MySQL, PostgreSQL, SQLite, Oracle Database, Microsoft SQL Server e MariaDB.
+
+Introdução aos banco de dados relacionais
+Um banco de dado relacional é um tipo de banco de dados que organiza os dados em tabelas. Cada tabela é composta de linhas, que representam registros individuais, e colunas, que representam campos de dados.
+
+Tabelas
+Em um banco de dados relacional, uma tabela é uma estrutura que organiza os dados em linhas e colunas, semelhante a uma planilha
+Cada linha representa um registro distinto e cada coluna representa um tipo de informação, chamado de campo. Por exemplo, uma tabela 'Clientes' pode ter campos como 'ID', 'nome', 'email', e 'telefone'.
+
+Chaves primárias
+Cada tabela em um banco de dados relaciona deve ter uma chave primária. A chave primária é uma coluna (ou conjunto de colunas) cujo valor é único para cada registro. Isso garante que cada registro na tabela possa ser identificado de maneira única. Por exemplo, na tabela 'Clientes', o campo 'ID' pode ser a chave primária.
+
+Chaves estrangeiras
+Por exemplo, em uma tabela 'Pedidos', podemos ter um campo 'ClienteID' que seja uma chave estrangeira apontando para a chave primária da tabela 'Clientes'. Isso cria um relacionamento entre 'Pedidos' e 'Clientes', permitindo que cada pedido seja associado a um cliente específico.
+
+Relacionamento entre tabelas
+Os bancos de dados relacionais permitem estabelecer relações podem ser 'um para um', 'um para muitos', ou 'muitoso para muitos'. Estas relações permitem efetuar consultas complexas que unem dados de várias tabelas.
+
+SQL (Structured Query Language)
+O SQL é a linguagem usada para interagir com banco ded dados relacionais. Com SQL, podemos criar tabelas, inserir, atualziar e deletar registros, bem como executar consultas para buscar dados.
+
+Exemplo de código:
+- Crir novo banco de dados
+CREATE DATABASE loja;
+- Criar uma tabela para armazenar informações de produtos
+CREAT TABLE produtos (id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR(100), preco DECIMAL);
+- Incluir um novo produto
+INSERT INTO produtos (nome, preco) VALUES ('Curso de Python', 250.00);
+- Listar todos os produtos
+SELECT * FROM proodutos;
+- Atualizar o produto com id informado
+UPDATE produtos SET nome='Curso de Python para iniciantes' WHERE id = 1;
+- Excluir o produto com id informado
+DELETE FROM proodutos WHERE id = 1;
+
