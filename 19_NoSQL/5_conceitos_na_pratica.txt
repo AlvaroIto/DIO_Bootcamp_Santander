@@ -1,0 +1,70 @@
+Operações de manipulação de dados
+- Listar databases
+show databases;
+
+- Criar novo databases
+use nome_database
+
+- Criar collection
+- forma1 (explícita):
+use nome_database
+db.createCollection('nome_collection', {capped: true, max: 2, size: 2});
+
+- forma2 (implicita):
+db.test1.insertOne({'age': 10})
+
+- Listar collections
+show collections;
+
+- Inserir dados na collection
+- forma1:
+db.nome_collection.insertOne({'name': 'Teste 1'});
+
+- forma2:
+db.clients.insert([{'name':'Patrick', 'age': 34}, {'name': 'Bob Esponja'}])
+
+- Listar documentos da collection
+db.test.find({});
+
+- Atualizar o documento ou ID existente (caso não exista ele insere)
+db.clients.save({'_id' : ObjectID('xxx'), 'name' : 'Patrick', 'age' : 40})
+
+- Atualizar documento na collection setando apenas os atributos desejados
+db.clients.update({'name' : 'Bob Esponja'}, {$set :{'age': 32}})
+
+- O update pode atualizar mais de 1 documento
+forma1: db.clients.update({'age' : 32}, {$set :{'age': 38}}, {multi: true})
+forma2: db.clients.updateMany({'age': 32}, {$set: {'age': 44}});
+
+
+- Buscas
+db.clients.find({})
+- busca especifica
+db.clients.find({'age': 44})
+- busca primeiro dado
+db.clients.find({'age': 44}).limit(1)
+- busca mais completa
+db.clients.find({'age': 33, 'name': 'Lula Molusco'})
+- operador in
+db.clients.find({'age': {$in: [30, 44]}})
+- operador or
+db.clients.find({$or: [{'name': 'Lula Molusco'}, {'age': 44}]})
+- operador lt (dados abaixo)
+db.clients.find({'age'}: {$lt: 45})
+- operador lte (dados abaixo e inclusive)
+db.clients.find({'age'}: {$lte: 45})
+
+- delete one
+db.clients.deleteOne({'age': 44})
+- delete many
+db.clients.deleteMany({'age': 44})
+
+- inserir indice
+db.getCollection('clients').createIndex({name: 1}, {'name': 'idx_name'})
+
+
+
+
+
+
+

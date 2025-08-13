@@ -1,0 +1,44 @@
+Objetivos
+- Apresentar conceitos de Schema Design
+- Apresentar boas práticas
+
+Existem 2 formas de modelar os dados, a principal e a mais recomendada e trabalhar com relacionamentos embedding nos documentos e segunda é fazer os relacionamentos por referência.
+
+Design Embedding:
+- Documentos autocontido, ou seja, todas as informações que você precisa vão estar dentro desse documento, sem precisar fazer referência para nenhum documento ou para outra collection
+Pros:
+- Consulta informações em uma unica query
+- Atualiza o registro em uma unica operação
+Contras:
+- Limite de 16MB por documento
+
+Referência:
+Pros:
+- Documentos pequenos
+- Não duplica informações
+- (Usado quando os dados não são acessados em todas as consultas)
+Contras:
+- Duas ou mais queries ou utlização do $lookup
+
+Recomendações de acordo com os relacionamentos:
+One-to-one: prefira atributos chave-valor no documento Ex: (1 usuário para 1 endereço)
+One-to-few: prefira o embedding Ex: (1 usuário para mais de 1 endereço)
+One-to-many e many-to-many: prefira referência
+
+
+Boas práticas
+- Evite documentos muito grandes
+- Use nome campos objetivos e curtos
+- Analise as suas queries utilizando explain()
+- Atualize apenas os campos alterados
+- Evite negações em queries
+- Listas/Arrays dentro dos documentos não podem crescer sem Limite
+
+
+Diferença entre JSON e BSON
+
+BSON:
+- É uma serialização codificada em binário de documentos semelhantes a JSON
+- Contém extensões que permitem a representanção de tipos de dados que não fazem aprte da especificação JSON. Por exemplo: BSON tem um tipo Date, ObjectID
+
+
