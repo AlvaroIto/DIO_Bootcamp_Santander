@@ -1,0 +1,36 @@
+WorkoutAPI
+Esta é uma API de competição de crossfit chamada WorkoutAPI. É uma API pequena, devido ser um projeto mais hands-on e simplificado nós desenvolveremos uma API de pucas tabelas, mas com o necessárioo para você aprender como utilizar o FastAPI
+
+MER:
+    - Tabela Categoria
+        Atributos: pk_id (pk), id, nome
+
+    - Tabela Atleta
+        Atributos: pk_id (pk), id, nome, cpf, idade, peso, altura, sexo, centro_treinamento_id (fk), categoria_id (fk)
+
+    - Tabela Centro_treinamento
+        Atributos: pk_id (pk), id, nome, endereco, proprietario
+
+Relacionamentos:
+    - Atleta tem relacionamento de 1 para 1 com categoria e 1 para  com Centro_treinamento
+
+Stack da API
+A API foi desenvolvida utilizando o fastapi (async), junto das seguintes libs: alembic, SQLAlchemy, pydantic. Para salvar os dados está sendoo utlizado o postgres, por meio do docker.
+
+Desafio final
+    - Adicionar query parameters nos endpoints
+        - Atleta
+            - nome
+            - cpf
+    - Customizar response de retorno de endpoints
+        - get all
+            - atleta
+                - nome
+                - centro_treinamento
+                - categoria
+    - Manipular exceção de integridade dos dados
+        - sqlalchemy.exc.IntegrityError e devolver a seguinte mensagem: 'Já existe um atleta cadastrado com o cpf: x'
+    - Adicionaor panição utilizando a lib: fastapi-pagination
+        - limit e offset
+
+
